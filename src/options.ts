@@ -177,6 +177,4 @@ config
   })
   .catch(noop);
 
-$('.ui.checkbox')
-  .checkbox()
-;
+$('.ui.checkbox').checkbox();

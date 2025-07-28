@@ -20,7 +20,7 @@ export default tseslint.config(
         ...globals.node,
       },
     },
-    ignores: ['*.html'],
+    ignores: ['*.html', 'src/jquery/**', 'src/fomantic/**'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/explicit-member-accessibility': 'error',
