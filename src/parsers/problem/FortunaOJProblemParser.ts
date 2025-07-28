@@ -19,7 +19,9 @@ export class FortunaOJProblemParser extends Parser {
     const downloads = /showdownload\/\d+/.exec(html);
     const domain = new URL(url).hostname;
 
-    if (link_limits == null) {
+    if (elem.querySelector('.label.label-info.header-filename')) {
+      await task.setName(elem.querySelector('.label.label-info.header-filename').textContent.trim().replace('.in', ''));
+    } else if (link_limits == null) {
       console.assert(downloads != null, 'No link_limits or downloads found!');
       const pid = downloads[0].replace('showdownload/', '');
       await task.setName(FortunaOJProblemParser.domains[domain] + pid);
