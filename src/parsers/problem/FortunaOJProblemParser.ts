@@ -38,12 +38,12 @@ export class FortunaOJProblemParser extends Parser {
       sample_out: string[] = [];
 
     for (let i = 0; i < codeBlocks.length - 1; i += 2) {
-      this.splitChinese(codeBlocks[i].innerHTML).forEach(str => {
-        str = str.replace(/\u00A0/g, ' ').replace(/&nbsp;/g, ' ');
+      this.splitChinese(codeBlocks[i].textContent).forEach(str => {
+        str = str.replace(/\u00A0/g, ' ').replace(/\u2010/g, '-');
         sample_in.push(str);
       });
-      this.splitChinese(codeBlocks[i + 1].innerHTML).forEach(str => {
-        str = str.replace(/\u00A0/g, ' ').replace(/&nbsp;/g, ' ');
+      this.splitChinese(codeBlocks[i + 1].textContent).forEach(str => {
+        str = str.replace(/\u00A0/g, ' ').replace(/\u2010/g, '-');
         sample_out.push(str);
       });
     }
