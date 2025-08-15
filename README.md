@@ -83,6 +83,7 @@ This project still follows MIT license.
 | HIT Online Judge           | ✔              |                |
 | hihoCoder                  | ✔              | ✔              |
 | HKOI Online Judge          | ✔              | ✔              |
+| HOJ                        | ✔              |                |
 | Hrbust Online Judge        | ✔              |                |
 | Hydro                      | ✔              | ✔              |
 | ICPC Live Archive          | ✔              |                |
@@ -113,6 +114,7 @@ This project still follows MIT license.
 | NowCoder                   | ✔              |                |
 | NYTD Online Judge          | ✔              | ✔              |
 | oiClass                    | ✔              | ✔              |
+| Olympicode                 | ✔              |                |
 | omegaUp                    | ✔              |                |
 | OpenJudge                  | ✔              | ✔              |
 | OTOG                       | ✔              |                |

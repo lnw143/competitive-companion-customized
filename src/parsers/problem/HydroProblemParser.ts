@@ -9,6 +9,7 @@ export class HydroProblemParser extends Parser {
     'oiclass.com': 'oiClass',
     'newoj.cyezoi.com': 'CYEZOJ',
     'oj.33dai.cn': '33OJ',
+    'bs.daimayuan.top': 'Daimayuan Online Judge',
   };
 
   public getMatchPatterns(): string[] {
@@ -43,6 +44,10 @@ export class HydroProblemParser extends Parser {
     }
 
     const blocks = [...elem.querySelectorAll('.sample > pre > code')];
+    if (judge === 'Daimayuan Online Judge') {
+      blocks.push(...elem.querySelectorAll('h2 + .code-toolbar > pre > code'));
+    }
+
     for (let i = 0; i < blocks.length - 1; i += 2) {
       task.addTest(blocks[i].textContent, blocks[i + 1].textContent);
     }
