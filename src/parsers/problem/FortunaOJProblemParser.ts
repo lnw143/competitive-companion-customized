@@ -65,7 +65,7 @@ export class FortunaOJProblemParser extends Parser {
 
   private splitChinese(str: string): string[] {
     const result: string[] = [];
-    const str_list = str.split('<br>');
+    const str_list = str.split('\n');
     let cur = '';
     for (const i of str_list) {
       if (this.checkChinese(i)) {
