@@ -59,6 +59,14 @@ export class TaskBuilder {
     if (await config.get('shortName')) {
       name = shortName || fullName;
     }
+
+    // if user want to use custom name, get it from a div
+    // it means, user should have a div with id "customNameForCompetitiveCompanionCustomized" in html filled with the custom name
+    // user can achieve it by Tampermonkey or other browser extension
+    if (document.getElementById('customNameForCompetitiveCompanionCustomized') !== null) {
+      name = (document.getElementById('customNameForCompetitiveCompanionCustomized') as HTMLInputElement).textContent;
+    }
+
     if (await config.get('nameConfirm')) {
       this.name = prompt('Please set a name for this problem:', name);
       if (this.name == null) {
