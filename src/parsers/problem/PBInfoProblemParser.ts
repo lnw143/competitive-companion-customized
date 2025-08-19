@@ -14,18 +14,18 @@ export class PBInfoProblemParser extends Parser {
 
     const isNew = url.includes('new');
 
-    this.parseTitle(elem, task, isNew);
+    await this.parseTitle(elem, task, isNew);
     this.parseDetails(elem, task, isNew);
     this.parseTests(html, task);
 
     return task.build();
   }
 
-  private parseTitle(elem: Element, task: TaskBuilder, isNew: boolean): void {
+  private async parseTitle(elem: Element, task: TaskBuilder, isNew: boolean): Promise<void> {
     const titleElement = isNew
       ? elem.querySelector('h1.py-5 > div').lastChild
       : elem.querySelector('h1.text-primary > a');
-    task.setName(titleElement.textContent.trim());
+    await task.setName(titleElement.textContent.trim());
   }
 
   private parseDetails(elem: Element, task: TaskBuilder, isNew: boolean): void {

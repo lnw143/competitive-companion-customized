@@ -6,6 +6,7 @@ import { Parser } from '../Parser';
 export class UOJProblemParser extends Parser {
   public static readonly domains: Record<string, string> = {
     'uoj.ac': 'UOJ',
+    'qoj.ac': 'QOJ',
     'pjudge.ac': 'Public Judge',
     'oj.daimayuan.top': 'Daimayuan Online Judge',
   };
@@ -29,14 +30,18 @@ export class UOJProblemParser extends Parser {
   public async parse(url: string, html: string): Promise<Sendable> {
     const elem = htmlToElement(html);
     const task = new TaskBuilder(UOJProblemParser.domains[new URL(url).hostname]).setUrl(url);
+    const urls = url.split('/');
+    const pid = urls[urls.length - 1];
+    const domain = new URL(url).hostname;
 
     const container = elem.querySelector('.uoj-content');
 
     const header = container.querySelector('.page-header');
+    const shortName = UOJProblemParser.domains[domain] + ' ' + pid;
     if (header.tagName === 'H1') {
-      task.setName(this.getTitle(header));
+      await task.setName(this.getTitle(header), shortName);
     } else {
-      task.setName(this.getTitle(header.querySelector('h1 + h1')));
+      await task.setName(this.getTitle(header.querySelector('h1 + h1')), shortName);
       task.setCategory(this.getTitle(header.querySelector('h1 > small')));
     }
 

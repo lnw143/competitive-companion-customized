@@ -12,17 +12,28 @@ export class LuoguProblemParser extends Parser {
     const elem = htmlToElement(html);
     const task = new TaskBuilder('Luogu').setUrl(url);
 
-    if (elem.querySelector('.main-container') !== null) {
-      this.parseFromPage(task, elem);
+    const urls = url.split('/');
+    const pid = urls[urls.length - 1];
+    let shortName = '';
+
+    if (pid.includes('contestId')) {
+      const cid = /\?contestId=\d+/.exec(pid).at(0);
+      shortName = 'Luogu C' + cid.replace('?contestId=', '') + ' ' + pid.replace(cid, '');
     } else {
-      this.parseFromScript(task, elem);
+      shortName = 'Luogu ' + pid;
+    }
+
+    if (elem.querySelector('.main-container') !== null) {
+      await this.parseFromPage(shortName, task, elem);
+    } else {
+      await this.parseFromScript(shortName, task, elem);
     }
 
     return task.build();
   }
 
-  private parseFromPage(task: TaskBuilder, elem: Element): void {
-    task.setName(elem.querySelector('h1').textContent.trim());
+  private async parseFromPage(shortName: string, task: TaskBuilder, elem: Element): Promise<void> {
+    await task.setName(elem.querySelector('h1').textContent.trim(), shortName);
 
     const timeLimitStr = elem.querySelector('.stat > .field:nth-child(3) > .value').textContent;
     task.setTimeLimit(parseFloat(timeLimitStr) * 1000);
@@ -39,11 +50,11 @@ export class LuoguProblemParser extends Parser {
     });
   }
 
-  private parseFromScript(task: TaskBuilder, elem: Element): void {
+  private async parseFromScript(shortName: string, task: TaskBuilder, elem: Element): Promise<void> {
     const script = elem.querySelector('#lentille-context').textContent;
     const data = JSON.parse(script).data.problem;
 
-    task.setName(`${data.pid} ${data.title}`.trim());
+    await task.setName(`${data.pid} ${data.title}`.trim(), shortName);
 
     task.setTimeLimit(Math.max(...data.limits.time));
     task.setMemoryLimit(Math.max(...data.limits.memory) / 1024);

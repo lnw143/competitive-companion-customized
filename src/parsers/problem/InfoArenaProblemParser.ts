@@ -31,15 +31,15 @@ export class InfoArenaProblemParser extends Parser {
     const elem = htmlToElement(html);
     const task = new TaskBuilder(judge).setUrl(url);
 
-    this.parseTitle(elem, task);
+    await this.parseTitle(elem, task);
     this.parseDetails(elem, task);
     this.parseTests(html, task);
 
     return task.build();
   }
 
-  private parseTitle(elem: Element, task: TaskBuilder): void {
-    task.setName(elem.querySelector('.wiki_text_block > h1').textContent.trim());
+  private async parseTitle(elem: Element, task: TaskBuilder): Promise<void> {
+    await task.setName(elem.querySelector('.wiki_text_block > h1').textContent.trim());
   }
 
   private parseDetails(elem: Element, task: TaskBuilder): void {

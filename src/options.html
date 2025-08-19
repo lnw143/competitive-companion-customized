@@ -8,104 +8,94 @@
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    <title>Competitive Companion Options</title>
+    <title>Competitive Companion Customized Options</title>
 
-    <style>
-      /* Adapted from https://github.com/sindresorhus/notifier-for-github/blob/master/source/options.html */
-
-      body {
-        margin: 8px;
-        font-size: 14px;
-        font-family: sans-serif;
-      }
-
-      section {
-        padding: 0 18px;
-      }
-
-      section h3 {
-        margin-left: -18px;
-      }
-
-      section input[type='text'] {
-        margin-top: 8px;
-        width: 100%;
-      }
-
-      section p.description {
-        font-style: italic;
-        color: grey;
-      }
-
-      section p.error {
-        color: red;
-      }
-
-      .custom-rules-row > input {
-        width: 40% !important;
-      }
-
-      .custom-rules-row > select {
-        width: 40%;
-      }
-
-      .hidden {
-        display: none;
-      }
-    </style>
+    <script src="jquery/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="fomantic/semantic.min.css" />
+    <script src="fomantic/semantic.min.js"></script>
   </head>
   <body>
-    <section>
-      <h3>Custom tools</h3>
-      <label for="custom-ports">Custom ports</label>
+    <div class="ui raised very padded text container segment">
+      <h2 class="ui header">Competitive Companion Customized Options</h2>
 
-      <br />
+      <div class="ui form">
+        <div class="field">
+          <label>Preferences</label>
 
-      <input type="text" id="custom-ports" title="Port numbers" />
+          <div class="ui checkbox">
+            <input type="checkbox" id="name-confirm" tabindex="0" class="hidden" />
+            <label>Ask the user to confirm the name before parsing the problem.</label>
+          </div>
 
-      <p id="custom-ports-error" class="error hidden">
-        Please make sure all ports are valid, and multiple ports are separated by commas.
-      </p>
+          <div class="ui checkbox">
+            <input type="checkbox" id="short-name" tabindex="0" class="hidden" />
+            <label>Use short name (usually is pid) instead of full name (usually is problem name).</label>
+          </div>
+        </div>
 
-      <p class="description">Specify custom ports to send the parsed data to, separated by commas.</p>
-    </section>
+        <div class="field">
+          <label>Custom ports</label>
 
-    <section>
-      <h3>Custom rules</h3>
+          <input type="text" id="custom-ports" placeholder="Port numbers" />
 
-      <div id="custom-rules-container"></div>
+          <div id="custom-ports-error" class="ui negative message hidden">
+            <div class="header">Ports are not valid</div>
+            <p>Please make sure all ports are valid, and multiple ports are separated by commas.</p>
+          </div>
 
-      <p id="custom-rules-error" class="error hidden"></p>
+          <p>Specify custom ports to send the parsed data to, separated by commas.</p>
+        </div>
 
-      <p class="description">
-        Custom rules can be used to override the parser selection. When a rule's regular expression matches with the url
-        of the problem that is being parsed, the parser configured in that rule is used instead of the default parser.
-      </p>
-    </section>
+        <div class="field">
+          <label>Custom rules</label>
 
-    <section>
-      <h3>Request timeout</h3>
+          <div id="custom-rules-container"></div>
 
-      <label for="request-timeout">Request timeout:</label>
-      <input type="number" id="request-timeout" min="1" />
+          <div id="custom-rules-error" class="ui negative message hidden">
+            <div class="header">Rules are not valid</div>
+            <p></p>
+          </div>
 
-      <p class="description">
-        When a problem is sent to the ports a tool could possibly be listening on a timeout is set so requests sent to
-        ports with no listening tools aren't kept alive for too long. You should not change this value unless you are
-        facing issues with your tools not receiving the problem data after clicking the "+" button when they should be.
-      </p>
-    </section>
+          <p>
+            Custom rules can be used to override the parser selection. When a rule's regular expression matches with the
+            url of the problem that is being parsed, the parser configured in that rule is used instead of the default
+            parser.
+          </p>
+        </div>
 
-    <section>
-      <h3>Debugging</h3>
+        <div class="field">
+          <label>Request timeout</label>
 
-      <input type="checkbox" id="debug-mode" />
-      <label for="debug-mode">Debug mode</label>
+          <input type="number" id="request-timeout" min="1" />
 
-      <p class="description">
-        If debug mode is enabled, all the JSON data that is sent is logged to the console as well.
-      </p>
-    </section>
+          <p>
+            When a problem is sent to the ports a tool could possibly be listening on a timeout is set so requests sent
+            to ports with no listening tools aren't kept alive for too long. You should not change this value unless you
+            are facing issues with your tools not receiving the problem data after clicking the "+" button when they
+            should be.
+          </p>
+        </div>
+
+        <div class="field">
+          <label>Debugging</label>
+
+          <div class="ui checkbox">
+            <input type="checkbox" id="debug-mode" tabindex="0" class="hidden" />
+            <label>Debug mode</label>
+          </div>
+
+          <p>If debug mode is enabled, all the JSON data that is sent is logged to the console as well.</p>
+        </div>
+        
+        <div class="field">
+          <label>Custom name</label>
+
+          <p>If you want to use a custom name, you can do so through Tampermonkey or other browser extensions by adding a <code>div</code> with <code>id="customNameForCompetitiveCompanionCustomized"</code> to the current page. Fill the div with the problem name you want, and this extension will read it and use it as the default name.</p>
+
+          <p><a href="https://greasyfork.org/zh-CN/scripts/545903-vjudge-example-for-custom-name-in-competitive-companion-customized">An example for VJudge with Tampermonkey</a>, which will read the title from the VJudge problem page and use it as the default problem name.</p>
+        </div>
+      </div>
+    </div>
 
     <script src="js/options.js"></script>
   </body>

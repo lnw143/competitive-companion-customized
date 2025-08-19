@@ -39,23 +39,40 @@ export class CodeforcesProblemParser extends Parser {
       const table = elem.querySelector('.problemindexholder > .ttypography > table');
 
       if (table) {
-        this.parseAcmSguRuProblemInsideTable(html, task);
+        await this.parseAcmSguRuProblemInsideTable(html, task);
       } else {
-        this.parseAcmSguRuProblemNotInsideTable(html, task);
+        await this.parseAcmSguRuProblemNotInsideTable(html, task);
       }
     } else if (html.startsWith('%PDF') || htmlToElement(html).querySelector('embed[type="application/pdf"]') !== null) {
       await this.parsePdfProblem(url, task);
     } else {
-      this.parseMainProblem(html, url, task);
+      await this.parseMainProblem(html, url, task);
     }
 
     return task.build();
   }
 
-  private parseMainProblem(html: string, url: string, task: TaskBuilder): void {
+  private async parseMainProblem(html: string, url: string, task: TaskBuilder): Promise<void> {
     const elem = htmlToElement(html);
 
-    task.setName(elem.querySelector('.problem-statement > .header > .title').textContent.trim());
+    const fullName = elem.querySelector('.problem-statement > .header > .title').textContent.trim();
+    let shortName = null;
+
+    const urls = url.split('/');
+
+    while (urls.at(-1).trim() == '') {
+      urls.pop();
+    }
+
+    const pid = /\d+/.exec(url).at(0) + ' ' + (urls.at(-1) == '0' ? 'A' : urls.at(-1));
+
+    if (!url.includes('group') && (url.includes('problemset') || url.includes('contest'))) {
+      shortName = 'CF ' + pid;
+    } else if (url.includes('gym')) {
+      shortName = 'CF GYM ' + pid;
+    }
+
+    await task.setName(fullName, shortName);
 
     if (url.includes('/edu/')) {
       const breadcrumbs = [...elem.querySelectorAll('.eduBreadcrumb > a')].map(el => el.textContent.trim());
@@ -119,10 +136,10 @@ export class CodeforcesProblemParser extends Parser {
     return [...lines].map(el => (el.querySelector('br') === null ? decodeHtml(el.innerHTML) : '')).join('\n');
   }
 
-  private parseAcmSguRuProblemInsideTable(html: string, task: TaskBuilder): void {
+  private async parseAcmSguRuProblemInsideTable(html: string, task: TaskBuilder): Promise<void> {
     const elem = htmlToElement(html);
 
-    task.setName(elem.querySelector('.problemindexholder h3').textContent.trim());
+    await task.setName(elem.querySelector('.problemindexholder h3').textContent.trim());
     task.setCategory('acm.sgu.ru archive');
 
     task.setTimeLimit(parseFloat(/time limit per test: ([0-9.]+)\s+sec/.exec(html)[1]) * 1000);
@@ -134,10 +151,10 @@ export class CodeforcesProblemParser extends Parser {
     }
   }
 
-  private parseAcmSguRuProblemNotInsideTable(html: string, task: TaskBuilder): void {
+  private async parseAcmSguRuProblemNotInsideTable(html: string, task: TaskBuilder): Promise<void> {
     const elem = htmlToElement(html);
 
-    task.setName(elem.querySelector('.problemindexholder h4').textContent.trim());
+    await task.setName(elem.querySelector('.problemindexholder h4').textContent.trim());
     task.setCategory('acm.sgu.ru archive');
 
     task.setTimeLimit(parseFloat(/Time\s+limit per test: ([0-9.]+)\s+sec/i.exec(html)[1]) * 1000);
@@ -171,10 +188,10 @@ export class CodeforcesProblemParser extends Parser {
       return link !== null && link.textContent.trim() === letter;
     });
 
-    this.parseContestRow(rowElem, task);
+    await this.parseContestRow(rowElem, task);
   }
 
-  public parseContestRow(elem: Element, task: TaskBuilder): void {
+  public async parseContestRow(elem: Element, task: TaskBuilder): Promise<void> {
     const columns = elem.querySelectorAll('td');
 
     task.setUrl(columns[0].querySelector('a').href);
@@ -182,7 +199,7 @@ export class CodeforcesProblemParser extends Parser {
     const letter = columns[0].querySelector('a').text.trim();
     const name = columns[1].querySelector('a').text.trim();
 
-    task.setName(`${letter}. ${name}`);
+    await task.setName(`${letter}. ${name}`);
 
     const detailsStr = columns[1].querySelector('div > div:not(:first-child)').textContent;
     const detailsMatches = /([^/]+)\/([^\n]+)\s+([0-9.]+) s,\s+(\d+) MB/.exec(detailsStr.replace('\n', ' '));

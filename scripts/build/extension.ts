@@ -49,6 +49,7 @@ await Promise.all(
 
           options_ui: {
             page: 'options.html',
+            open_in_tab: true,
           },
 
           action: {
@@ -112,6 +113,14 @@ await Promise.all(
     {
       from: path.resolve(projectRoot, 'LICENSE'),
       to: path.resolve(buildDirectory, 'LICENSE'),
+    },
+    {
+      from: path.resolve(projectRoot, 'src/jquery'),
+      to: path.resolve(buildDirectory, 'jquery'),
+    },
+    {
+      from: path.resolve(projectRoot, 'src/fomantic'),
+      to: path.resolve(buildDirectory, 'fomantic'),
     },
   ].map(async ({ from, to }) => {
     if (typeof from === 'function') {

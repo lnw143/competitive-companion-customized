@@ -14,7 +14,7 @@ export class EolympBasecampProblemParser extends Parser {
 
     const contentElem = elem.querySelector('.MuiContainer-root > div[class^="ui-"]');
 
-    task.setName(contentElem.querySelector('h1 > span.ecm-span').textContent);
+    await task.setName(contentElem.querySelector('h1 > span.ecm-span').textContent);
 
     const contestName = elem.querySelector('.drawer span.MuiTypography-headlineSmall')?.textContent;
     if (contestName && contestName !== task.name && contestName !== 'Basecamp') {

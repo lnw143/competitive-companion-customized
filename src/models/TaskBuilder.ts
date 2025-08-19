@@ -1,4 +1,5 @@
 import cyrillicToTranslit from 'cyrillic-to-translit-js';
+import { config } from '../utils/config';
 import { uuidv4 } from '../utils/random';
 import { Batch } from './Batch';
 import { InputConfiguration, OutputConfiguration } from './IOConfiguration';
@@ -8,6 +9,14 @@ import { Test } from './Test';
 import { TestType } from './TestType';
 
 const cyrillicToLatin = cyrillicToTranslit();
+
+export class Reporter {
+  public message: string;
+
+  public constructor(message: string) {
+    this.message = message;
+  }
+}
 
 export class TaskBuilder {
   public name: string = '';
@@ -45,8 +54,27 @@ export class TaskBuilder {
     this.updateGroupFromJudgeCategory();
   }
 
-  public setName(name: string): TaskBuilder {
-    this.name = name;
+  public async setName(fullName: string, shortName?: string): Promise<TaskBuilder> {
+    let name = fullName;
+    if (await config.get('shortName')) {
+      name = shortName || fullName;
+    }
+
+    // if user want to use custom name, get it from a div
+    // it means, user should have a div with id "customNameForCompetitiveCompanionCustomized" in html filled with the custom name
+    // user can achieve it by Tampermonkey or other browser extension
+    if (document.getElementById('customNameForCompetitiveCompanionCustomized') !== null) {
+      name = (document.getElementById('customNameForCompetitiveCompanionCustomized') as HTMLInputElement).textContent;
+    }
+
+    if (await config.get('nameConfirm')) {
+      this.name = prompt('Please set a name for this problem:', name);
+      if (this.name == null) {
+        throw new Reporter('Parser was cancelled by user.');
+      }
+    } else {
+      this.name = name;
+    }
     return this.updateJavaTaskClassFromName();
   }
 

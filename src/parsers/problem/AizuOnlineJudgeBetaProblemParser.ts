@@ -19,11 +19,11 @@ export class AizuOnlineJudgeBetaProblemParser extends Parser {
     if (url.includes('services/room.html')) {
       this.parseArenaCategory(task, elem);
       this.parseLimits(task, elem.querySelectorAll('#description_info > .limit'));
-      this.parseBody(task, elem.querySelector('#description_html'));
+      await this.parseBody(task, elem.querySelector('#description_html'));
     } else {
       this.parseNormalCategory(task, elem);
       this.parseLimits(task, elem.querySelectorAll('.problemInfo > .el-tag'));
-      this.parseBody(task, elem.querySelector('.problemBody'));
+      await this.parseBody(task, elem.querySelector('.problemBody'));
     }
 
     return task.build();
@@ -50,8 +50,8 @@ export class AizuOnlineJudgeBetaProblemParser extends Parser {
     return task;
   }
 
-  private parseBody(task: TaskBuilder, body: Element): TaskBuilder {
-    task.setName(body.querySelector('h1, h2').textContent);
+  private async parseBody(task: TaskBuilder, body: Element): Promise<TaskBuilder> {
+    await task.setName(body.querySelector('h1, h2').textContent);
 
     const preBlocks = [...body.querySelectorAll('pre')].filter(block => {
       const previousElem = block.previousElementSibling;

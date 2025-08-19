@@ -133,3 +133,7 @@ dist
 build-*/
 dist/
 firefox-tmp/
+
+# Custom
+.cph
+*.cpp

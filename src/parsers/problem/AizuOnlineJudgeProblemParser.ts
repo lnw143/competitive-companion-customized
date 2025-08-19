@@ -16,7 +16,7 @@ export class AizuOnlineJudgeProblemParser extends Parser {
     const elem = htmlToElement(html);
     const task = new TaskBuilder('Aizu Online Judge').setUrl(url);
 
-    task.setName(elem.querySelector('h1').textContent);
+    await task.setName(elem.querySelector('h1').textContent);
 
     let breadcrumbs: string[];
     let limitsStr: string;

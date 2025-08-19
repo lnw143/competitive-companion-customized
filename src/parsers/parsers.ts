@@ -72,6 +72,7 @@ import { CodeforcesProblemParser } from './problem/CodeforcesProblemParser';
 import { CodeMarshalProblemParser } from './problem/CodeMarshalProblemParser';
 import { CodeRunProblemParser } from './problem/CodeRunProblemParser';
 import { CodeUpProblemParser } from './problem/CodeUpProblemParser';
+import { COGSOnlineJudgeProblemParser } from './problem/COGSOnlineJudgeProblemParser';
 import { COJProblemParser } from './problem/COJProblemParser';
 import { ContestHunterProblemParser } from './problem/ContestHunterProblemParser';
 import { CPythonUZProblemParser } from './problem/CPythonUZProblemParser';
@@ -84,6 +85,7 @@ import { DMOJProblemParser } from './problem/DMOJProblemParser';
 import { ECNUOnlineJudgeProblemParser } from './problem/ECNUOnlineJudgeProblemParser';
 import { EolympBasecampProblemParser } from './problem/EolympBasecampProblemParser';
 import { EolympNormalProblemParser } from './problem/EolympNormalProblemParser';
+import { FortunaOJProblemParser } from './problem/FortunaOJProblemParser';
 import { FZUOnlineJudgeProblemParser } from './problem/FZUOnlineJudgeProblemParser';
 import { GoogleCodingCompetitionsProblemParser } from './problem/GoogleCodingCompetitionsProblemParser';
 import { HackerEarthCodeArenaParser } from './problem/HackerEarthCodeArenaParser';
@@ -151,6 +153,7 @@ import { USACOTrainingProblemParser } from './problem/USACOTrainingProblemParser
 import { UVaOnlineJudgeProblemParser } from './problem/UVaOnlineJudgeProblemParser';
 import { VirtualJudgeProblemParser } from './problem/VirtualJudgeProblemParser';
 import { XCampProblemParser } from './problem/XCampProblemParser';
+import { XinyouduiOJProblemParser } from './problem/XinyouduiOJProblemParser';
 import { XXMProblemParser } from './problem/XXMProblemParser';
 import { YandexProblemParser } from './problem/YandexProblemParser';
 import { YukicoderProblemParser } from './problem/YukicoderProblemParser';
@@ -208,6 +211,8 @@ export const parsers: Parser[] = [
 
   new CodeUpProblemParser(),
 
+  new COGSOnlineJudgeProblemParser(),
+
   new COJProblemParser(),
   new COJContestParser(),
 
@@ -244,6 +249,8 @@ export const parsers: Parser[] = [
 
   new FZUOnlineJudgeProblemParser(),
   new FZUOnlineJudgeContestParser(),
+
+  new FortunaOJProblemParser(),
 
   new GoogleCodingCompetitionsProblemParser(),
 
@@ -400,6 +407,8 @@ export const parsers: Parser[] = [
   new VirtualJudgeContestParser(),
 
   new XCampProblemParser(),
+
+  new XinyouduiOJProblemParser(),
 
   new XXMProblemParser(),
 
