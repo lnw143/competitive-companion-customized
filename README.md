@@ -150,6 +150,7 @@ This project still follows MIT license.
 | XXM                        | ✔              |                |
 | X-Camp                     | ✔              |                |
 | yukicoder                  | ✔              | ✔              |
+| Yun Dou Xue Yuan           | ✔              | ✔              |
 | ZOJ                        | ✔              |                |
 | ZUFEOJ                     | ✔              | ✔              |
 
